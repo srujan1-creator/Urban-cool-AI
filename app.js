@@ -1057,6 +1057,62 @@ document.addEventListener('DOMContentLoaded', () => {
   const authTabs = document.querySelectorAll('.auth-tab-btn');
   const authPanels = document.querySelectorAll('.auth-panel');
 
+  function showToast(message, type = 'success') {
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.innerHTML = `
+      <div class="toast-content">
+        <span class="toast-icon">${type === 'success' ? '🛰️' : '⚠️'}</span>
+        <span class="toast-message">${message}</span>
+      </div>
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.classList.add('visible'), 50);
+    setTimeout(() => {
+      toast.classList.remove('visible');
+      setTimeout(() => toast.remove(), 400);
+    }, 3000);
+  }
+
+  function onLoginSuccess(userName) {
+    showToast(`Welcome back, ${userName}!`, 'success');
+    if (authModal) {
+      authModal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    if (btnSignin) {
+      const parent = btnSignin.parentElement;
+      if (parent) {
+        parent.innerHTML = `
+          <div class="user-profile-badge" style="
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 18px;
+            background: rgba(0, 212, 255, 0.08);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 50px;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 0.85rem;
+            font-family: 'Space Grotesk', sans-serif;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.1);
+          ">
+            <span style="
+              width: 8px;
+              height: 8px;
+              background: #10b981;
+              border-radius: 50%;
+              display: inline-block;
+              box-shadow: 0 0 8px #10b981;
+            "></span>
+            ${userName}
+          </div>
+        `;
+      }
+    }
+  }
+
   if (btnSignin && authModal) {
     btnSignin.addEventListener('click', (e) => {
       e.preventDefault();
@@ -1091,6 +1147,56 @@ document.addEventListener('DOMContentLoaded', () => {
       if (targetPanel) targetPanel.classList.add('active');
     });
   });
+
+  // Handle Form Submissions
+  const formLogin = document.getElementById('form-login');
+  if (formLogin) {
+    formLogin.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const name = email.split('@')[0];
+      const capitalized = name.charAt(0).toUpperCase() + name.slice(1);
+      onLoginSuccess(capitalized);
+    });
+  }
+
+  const formSignup = document.getElementById('form-signup');
+  if (formSignup) {
+    formSignup.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('signup-name').value || 'New User';
+      onLoginSuccess(name);
+    });
+  }
+
+  // Handle SSO Buttons Click
+  const ssoIsro = document.getElementById('sso-btn-isro');
+  if (ssoIsro) {
+    ssoIsro.addEventListener('click', () => {
+      const originalText = ssoIsro.innerHTML;
+      ssoIsro.innerHTML = `🛰️ Connecting to ISRO Auth...`;
+      ssoIsro.disabled = true;
+      setTimeout(() => {
+        onLoginSuccess('Srujan Kumar');
+        ssoIsro.innerHTML = originalText;
+        ssoIsro.disabled = false;
+      }, 1500);
+    });
+  }
+
+  const ssoGoogle = document.getElementById('sso-btn-google');
+  if (ssoGoogle) {
+    ssoGoogle.addEventListener('click', () => {
+      const originalText = ssoGoogle.innerHTML;
+      ssoGoogle.innerHTML = `Connecting to Google...`;
+      ssoGoogle.disabled = true;
+      setTimeout(() => {
+        onLoginSuccess('Aswati B Prasad');
+        ssoGoogle.innerHTML = originalText;
+        ssoGoogle.disabled = false;
+      }, 1500);
+    });
+  }
 
   // Auto-refresh the dashboard every 8 seconds to fetch live telemetry fluctuations
   setInterval(() => {
