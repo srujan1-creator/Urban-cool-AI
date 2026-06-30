@@ -1184,19 +1184,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  const ssoGoogle = document.getElementById('sso-btn-google');
-  if (ssoGoogle) {
-    ssoGoogle.addEventListener('click', () => {
-      const originalText = ssoGoogle.innerHTML;
-      ssoGoogle.innerHTML = `Connecting to Google...`;
-      ssoGoogle.disabled = true;
-      setTimeout(() => {
-        onLoginSuccess('Aswati B Prasad');
-        ssoGoogle.innerHTML = originalText;
-        ssoGoogle.disabled = false;
-      }, 1500);
-    });
-  }
+  // Define Google Sign-In JWT Callback globally so the Google client can call it
+  window.handleGoogleSignIn = function(response) {
+    try {
+      // Decode JWT payload (base64)
+      const base64Url = response.credential.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      
+      const payload = JSON.parse(jsonPayload);
+      const name = payload.name || payload.email.split('@')[0];
+      
+      // Successfully authenticated via Google!
+      onLoginSuccess(name);
+    } catch (e) {
+      console.error('Google Sign-In decoding failed', e);
+      showToast('Authentication failed', 'error');
+    }
+  };
 
   // Auto-refresh the dashboard every 8 seconds to fetch live telemetry fluctuations
   setInterval(() => {
