@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UrbanCool AI — ISRO Urban Heat Mitigation Platform</title>
+  
+  <!-- Premium Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Base Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Chart.js and plugins for premium dashboards -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- Twinkling Space Particle Field (Fixed Background) -->
+  <canvas id="hero-canvas"></canvas>
+
+  <!-- ===== NAVBAR ===== -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#" class="nav-brand">
+        <svg class="brand-logo" width="34" height="34" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="panelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#00d4ff"/>
+              <stop offset="100%" stop-color="#3b82f6"/>
+            </linearGradient>
+            <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#ffffff"/>
+              <stop offset="100%" stop-color="#94a3b8"/>
+            </linearGradient>
+            <filter id="logoGlow">
+              <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <circle cx="50" cy="50" r="42" stroke="rgba(0, 212, 255, 0.25)" stroke-width="2" stroke-dasharray="8 6" />
+          <path d="M 50 8 A 42 42 0 0 1 92 50" stroke="#00d4ff" stroke-width="3" stroke-linecap="round" filter="url(#logoGlow)" />
+          <circle cx="50" cy="50" r="28" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1.5" />
+          <rect x="12" y="44" width="22" height="12" rx="1.5" fill="url(#panelGrad)" stroke="#00d4ff" stroke-width="1" />
+          <line x1="12" y1="50" x2="34" y2="50" stroke="#06080f" stroke-width="1" />
+          <line x1="23" y1="44" x2="23" y2="56" stroke="#06080f" stroke-width="1" />
+          <rect x="66" y="44" width="22" height="12" rx="1.5" fill="url(#panelGrad)" stroke="#00d4ff" stroke-width="1" />
+          <line x1="66" y1="50" x2="88" y2="50" stroke="#06080f" stroke-width="1" />
+          <line x1="77" y1="44" x2="77" y2="56" stroke="#06080f" stroke-width="1" />
+          <rect x="34" y="49" width="32" height="2" fill="url(#bodyGrad)" />
+          <rect x="42" y="32" width="16" height="32" rx="3" fill="url(#bodyGrad)" stroke="#ffffff" stroke-width="1.2" />
+          <path d="M 37 68 C 37 72, 63 72, 63 68 C 59 75, 41 75, 37 68 Z" fill="#00d4ff" filter="url(#logoGlow)" />
+          <line x1="50" y1="64" x2="50" y2="76" stroke="#ffffff" stroke-width="1.5" />
+          <circle cx="50" cy="76" r="2" fill="#00d4ff" />
+          <path d="M 45 32 C 45 27, 55 27, 55 32 Z" fill="#e2e8f0" />
+        </svg>
+        <span class="brand-text">UrbanCool<span class="brand-ai">AI</span></span>
+      </a>
+      
+      <nav class="nav-links" id="nav-links">
+        <a href="#problem" class="nav-link">Problem</a>
+        <a href="#pipeline" class="nav-link">Architecture</a>
+        <a href="#dashboard" class="nav-link active">Live Dashboard</a>
+        <a href="#strategies" class="nav-link">Mitigation</a>
+        <a href="#model" class="nav-link">AI Model</a>
+        <a href="#team" class="nav-link">Team</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="btn-primary btn-signin" id="navbar-signin">Sign In</button>
+      </div>
+      
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== HERO SECTION ===== -->
+  <section class="hero-section" id="hero">
+    <div class="hero-overlay"></div>
+    <div class="container hero-container">
+      <div class="hero-text-side">
+        <div class="hero-badge animate-in">
+          <span class="badge-dot"></span> Powered by ISRO Satellite Telemetry
+        </div>
+        <h1 class="hero-title animate-in">
+          Optimizing Urban Cooling <br>
+          <span class="text-gradient">Through Physics-Informed AI</span>
+        </h1>
+        <p class="hero-subtitle animate-in">
+          Harnessing multi-temporal ISRO/Bhuvan satellite data to predict Land Surface Temperature, analyze microclimate anomalies, and deploy AI-recommended urban heat mitigation strategies.
+        </p>
+        
+        <div class="stats-row animate-in">
+          <div class="stat-box">
+            <span class="stat-num" data-target="5">0</span>
+            <span class="stat-label">Megacities</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num" data-target="15" data-suffix="m">0</span>
+            <span class="stat-label">Resolution</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num" data-target="99.8" data-decimal="1" data-suffix="%">0</span>
+            <span class="stat-label">Accuracy</span>
+          </div>
+        </div>
+        
+        <a href="#dashboard" class="btn-primary animate-in">
+          Explore Live Dashboard
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+
+      <div class="hero-image-side animate-in">
+        <div class="hero-img-card">
+          <div class="scanning-beam"></div>
+          <img src="assets/hero_satellite_thermal.png" alt="ISRO Satellite Thermal Scan Mockup" class="hero-main-img">
+          <div class="img-badge">ISRO LANDSAT SCANS</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="scroll-indicator">
+      <span>Scroll to Explore</span>
+      <div class="scroll-mouse">
+        <div class="scroll-dot"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROBLEM SECTION ===== -->
+  <section id="problem" class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">The Challenge</span>
+        <h2>The Urban Heat Island Phenomenon</h2>
+        <p>Rapid urbanization replaces natural vegetation with impervious concrete structures, trapping heat and creating critical temperature spikes in dense metropolitan zones.</p>
+      </div>
+
+      <div class="uhi-visual-grid">
+        <div class="uhi-diagram-card info-card">
+          <h3>UHI Temperature Profile</h3>
+          <p>Faint temperature curve rising sharply over commercial centers and dropping near green belts.</p>
+          <div class="svg-container">
+            <svg id="uhi-diagram" viewBox="0 0 600 280" width="100%" height="100%"></svg>
+          </div>
+        </div>
+        
+        <div class="satellite-card info-card">
+          <h3>Satellite Thermal View</h3>
+          <p>Thermal infrared bands capture microclimate variation between dense concrete cores and vegetation.</p>
+          <div class="img-wrapper">
+            <img src="assets/city_thermal_comparison.png" alt="City Thermal Heatmap Comparison" class="satellite-img">
+          </div>
+        </div>
+      </div>
+
+      <div class="cards-grid">
+        <div class="info-card problem-card">
+          <div class="problem-img-wrap">
+            <img src="assets/albedo_degradation.png" alt="Albedo Degradation" class="problem-card-img">
+            <div class="problem-icon-badge card-icon-red">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+            </div>
+          </div>
+          <div class="problem-body-wrap">
+            <h3>Albedo Degradation</h3>
+            <p>Low-reflective roofing and asphalt absorb solar radiation, maintaining elevated ambient heat profiles.</p>
+          </div>
+        </div>
+        <div class="info-card problem-card">
+          <div class="problem-img-wrap">
+            <img src="assets/canyon_trapping.png" alt="Canyon Trapping" class="problem-card-img">
+            <div class="problem-icon-badge card-icon-amber">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            </div>
+          </div>
+          <div class="problem-body-wrap">
+            <h3>Canyon Trapping</h3>
+            <p>Tall, narrow buildings block convective wind flow, preventing natural heat dissipation at night.</p>
+          </div>
+        </div>
+        <div class="info-card problem-card">
+          <div class="problem-img-wrap">
+            <img src="assets/ecological_deficit.png" alt="Ecological Deficit" class="problem-card-img">
+            <div class="problem-icon-badge card-icon-green">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+          </div>
+          <div class="problem-body-wrap">
+            <h3>Ecological Deficit</h3>
+            <p>Loss of tree canopy disables evaporative transpiration cooling, elevating city surface temperatures.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PIPELINE SECTION ===== -->
+  <section id="pipeline" class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">System Pipeline</span>
+        <h2>How UrbanCool AI Works</h2>
+        <p>A continuous geospatial analysis pipeline translating raw satellite observations into hyper-local cooling directives.</p>
+      </div>
+
+      <div class="pipeline-flow">
+        <div class="pipe-step">
+          <span class="step-num">Step 01</span>
+          <div class="step-icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3>ISRO Telemetry</h3>
+          <p>Ingests thermal infrared and multi-spectral datasets (Landsat/INSAT).</p>
+        </div>
+        <div class="pipe-connector">
+          <div class="connector-line"></div>
+          <div class="connector-dot"></div>
+        </div>
+        
+        <div class="pipe-step">
+          <span class="step-num">Step 02</span>
+          <div class="step-icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          </div>
+          <h3>Feature Mapping</h3>
+          <p>Extracts indices: NDVI (vegetation), NDBI (built-up), Albedo, and wind coefficients.</p>
+        </div>
+        <div class="pipe-connector">
+          <div class="connector-line"></div>
+          <div class="connector-dot"></div>
+        </div>
+        
+        <div class="pipe-step">
+          <span class="step-num">Step 03</span>
+          <div class="step-icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/></svg>
+          </div>
+          <h3>Physics-PINN Core</h3>
+          <p>Fuses ML regressors with physical heat convective flux equations.</p>
+        </div>
+        <div class="pipe-connector">
+          <div class="connector-line"></div>
+          <div class="connector-dot"></div>
+        </div>
+        
+        <div class="pipe-step">
+          <span class="step-num">Step 04</span>
+          <div class="step-icon-wrap">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <h3>Targeted Cooling</h3>
+          <p>Triggers strategic albedo, forestry, and water infrastructure recommendations.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DASHBOARD SECTION ===== -->
+  <section id="dashboard" class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">Live Console</span>
+        <h2>Urban Microclimate Dashboard</h2>
+        <p>Interactive telemetry console mapping microclimates and priority mitigation directives across major Indian cities.</p>
+      </div>
+
+      <div class="dash-wrapper">
+        <div class="dash-toolbar">
+          <div class="layer-selector">
+            <button class="layer-btn active" data-layer="lst">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></svg>
+              Land Surface Temp
+            </button>
+            <button class="layer-btn" data-layer="ndvi">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 22h20L12 2z"/></svg>
+              Vegetation Index
+            </button>
+            <button class="layer-btn" data-layer="ndbi">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/></svg>
+              Built-up Index
+            </button>
+            <button class="layer-btn" data-layer="cool">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              Cooling Priority
+            </button>
+          </div>
+
+          <div class="telemetry-badge">
+            <span class="telemetry-dot"></span>
+            INSAT-3D TELEMETRY: LIVE
+          </div>
+
+          <div class="select-city-wrap">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <select id="city-select" class="city-select">
+              <option value="hyderabad">Hyderabad (Telangana)</option>
+              <option value="delhi">Delhi (NCR)</option>
+              <option value="mumbai">Mumbai (Maharashtra)</option>
+              <option value="bengaluru">Bengaluru (Karnataka)</option>
+              <option value="chennai">Chennai (Tamil Nadu)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="dash-grid">
+          <div class="dash-map-area">
+            <div class="map-title-bar">
+              <span class="map-city" id="map-city-label">📍 Hyderabad, Telangana</span>
+              <span class="map-layer-label" id="current-layer-label">Land Surface Temperature</span>
+            </div>
+            
+            <canvas id="heatmap-canvas"></canvas>
+            
+            <!-- Dynamic Map Selection Inset -->
+            <div class="india-inset-map">
+              <img src="assets/map_india.png" alt="India Map Selector" class="india-inset-img">
+              <div class="inset-dot dot-hyderabad active" data-city="hyderabad" title="Hyderabad (Telangana)"></div>
+              <div class="inset-dot dot-delhi" data-city="delhi" title="Delhi (NCR)"></div>
+              <div class="inset-dot dot-mumbai" data-city="mumbai" title="Mumbai (Maharashtra)"></div>
+              <div class="inset-dot dot-bengaluru" data-city="bengaluru" title="Bengaluru (Karnataka)"></div>
+              <div class="inset-dot dot-chennai" data-city="chennai" title="Chennai (Tamil Nadu)"></div>
+            </div>
+
+            <div class="map-info" id="map-info">
+              <h4 id="zone-name">Hover over map</h4>
+              <div class="map-info-row">
+                <span class="info-label">Temperature</span>
+                <span class="info-value" id="zone-temp">--</span>
+              </div>
+              <div class="map-info-row">
+                <span class="info-label">Land Use</span>
+                <span class="info-value" id="zone-landuse">--</span>
+              </div>
+              <div class="map-info-row">
+                <span class="info-label">NDVI</span>
+                <span class="info-value" id="zone-ndvi">--</span>
+              </div>
+              <div class="map-info-row">
+                <span class="info-label">Risk Level</span>
+                <span class="info-value" id="zone-risk">--</span>
+              </div>
+            </div>
+
+            <div class="map-legend">
+              <span class="legend-label" id="legend-low">Cool</span>
+              <div class="legend-gradient" id="legend-gradient"></div>
+              <span class="legend-label" id="legend-high">Hot</span>
+            </div>
+          </div>
+
+          <div class="dash-sidebar">
+            <div class="chart-panel">
+              <h4>Temperature Distribution</h4>
+              <canvas id="chart-histogram"></canvas>
+            </div>
+            <div class="chart-panel">
+              <h4>Monthly Temperature Trend</h4>
+              <canvas id="chart-trend"></canvas>
+            </div>
+            <div class="chart-panel">
+              <h4>Land Use Classification</h4>
+              <canvas id="chart-landuse"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="dash-ai-panel">
+          <div class="ai-panel-header">
+            <div class="ai-icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            </div>
+            <div>
+              <h3>AI Heatwave Risk Prediction</h3>
+              <p>Execute our physics-informed models to evaluate cooling interventions and calculate heatwave risk reduction metrics.</p>
+            </div>
+          </div>
+
+          <div class="ai-panel-content">
+            <button class="btn-primary btn-predict" id="btn-predict">
+              Run AI Prediction
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </button>
+
+            <div class="gauge-container">
+              <canvas id="gauge-canvas" width="220" height="220"></canvas>
+              <div class="gauge-center-label">
+                <span class="gauge-value" id="gauge-value">--</span>
+                <span class="gauge-sublabel">Risk Index</span>
+              </div>
+            </div>
+
+            <div class="predict-results" id="predict-results">
+              <div class="result-item">
+                <span class="result-icon">⚠️</span>
+                <div>
+                  <span class="result-label">Heatwave Vulnerability</span>
+                  <span class="result-value" id="result-risk">--</span>
+                </div>
+              </div>
+              <div class="result-item">
+                <span class="result-icon">🌡️</span>
+                <div>
+                  <span class="result-label">Mitigated LST</span>
+                  <span class="result-value" id="result-temp">--</span>
+                </div>
+              </div>
+              <div class="result-item">
+                <span class="result-icon">👥</span>
+                <div>
+                  <span class="result-label">Pop. Benefited</span>
+                  <span class="result-value" id="result-pop">--</span>
+                </div>
+              </div>
+              <div class="result-item">
+                <span class="result-icon">🌿</span>
+                <div>
+                  <span class="result-label">Mitigation Directive</span>
+                  <span class="result-value" id="result-action">--</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STRATEGIES SECTION ===== -->
+  <section id="strategies" class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">Mitigation Portfolio</span>
+        <h2>AI-Driven Cooling Interventions</h2>
+        <p>Strategic structural and ecological implementations recommended by our predictive routing models based on urban density scores.</p>
+      </div>
+
+      <div class="strat-grid">
+        <div class="strat-card info-card">
+          <div class="strat-img-wrap">
+            <img src="assets/urban_canopy_forestry.png" alt="Urban Canopy Forestry" class="strat-card-img">
+            <div class="strat-icon-badge strat-green">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            </div>
+          </div>
+          <div class="strat-body-wrap">
+            <h3>Urban Canopy Forestry</h3>
+            <div class="strat-impact">
+              <span class="impact-num-val">-2.25°C</span>
+              <span class="impact-label">Local cooling effect</span>
+            </div>
+            <p>Targeted afforestation in urban cores. Increases shadows, decreases sensible heat flux, and triggers relative humidity convection cooling.</p>
+            <div class="strat-meta">
+              <div class="meta-item">
+                <span class="meta-label">Est. Cost</span>
+                <span class="meta-value">Low-Medium</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Lifespan</span>
+                <span class="meta-value">25+ Years</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="strat-card info-card">
+          <div class="strat-img-wrap">
+            <img src="assets/high_albedo_coatings.png" alt="High-Albedo Roof Coatings" class="strat-card-img">
+            <div class="strat-icon-badge strat-blue">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+          </div>
+          <div class="strat-body-wrap">
+            <h3>High-Albedo Roof Coatings</h3>
+            <div class="strat-impact">
+              <span class="impact-num-val">-1.15°C</span>
+              <span class="impact-label">Local cooling effect</span>
+            </div>
+            <p>Application of elastomeric high-reflective membranes (Albedo > 0.70). Reflects solar radiation and prevents building envelope absorption.</p>
+            <div class="strat-meta">
+              <div class="meta-item">
+                <span class="meta-label">Est. Cost</span>
+                <span class="meta-value">Very Low</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Lifespan</span>
+                <span class="meta-value">5-7 Years</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="strat-card info-card">
+          <div class="strat-img-wrap">
+            <img src="assets/convective_corridors.png" alt="Cool Convective Corridors" class="strat-card-img">
+            <div class="strat-icon-badge strat-silver">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+          </div>
+          <div class="strat-body-wrap">
+            <h3>Cool Convective Corridors</h3>
+            <div class="strat-impact">
+              <span class="impact-num-val">-1.95°C</span>
+              <span class="impact-label">Local cooling effect</span>
+            </div>
+            <p>Connecting green belts with open water channels. Promotes wind draft movement to vent anthropogenic building heat.</p>
+            <div class="strat-meta">
+              <div class="meta-item">
+                <span class="meta-label">Est. Cost</span>
+                <span class="meta-value">High</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Lifespan</span>
+                <span class="meta-value">50+ Years</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="strat-card info-card">
+          <div class="strat-img-wrap">
+            <img src="assets/green_roof_architecture.png" alt="Green Roof Architecture" class="strat-card-img">
+            <div class="strat-icon-badge strat-amber">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            </div>
+          </div>
+          <div class="strat-body-wrap">
+            <h3>Green Roof Architecture</h3>
+            <div class="strat-impact">
+              <span class="impact-num-val">-1.45°C</span>
+              <span class="impact-label">Local cooling effect</span>
+            </div>
+            <p>Roof garden systems with lightweight soil substrates. Uses structural plants to transpire water, lowering rooftop temperatures by up to 15°C.</p>
+            <div class="strat-meta">
+              <div class="meta-item">
+                <span class="meta-label">Est. Cost</span>
+                <span class="meta-value">Medium</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Lifespan</span>
+                <span class="meta-value">15+ Years</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== AI MODEL ARCHITECTURE ===== -->
+  <section id="model" class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">Model Architecture</span>
+        <h2>Physics-Informed Deep Learning Core</h2>
+        <p>Fusing neural network learning capabilities with fundamental equations of heat flux, surface convection, and albedo reflection.</p>
+      </div>
+
+      <div class="model-layout">
+        <div class="model-canvas-wrap">
+          <canvas id="nn-canvas"></canvas>
+          <div class="model-canvas-label">Interactive Neural Network Data Flow</div>
+        </div>
+
+        <div class="model-details">
+          <div class="model-card">
+            <div class="model-card-header">
+              <h3>Physics Constraint Layer (PINN)</h3>
+              <div class="model-tags">
+                <span class="tag">Energy Balance</span>
+                <span class="tag">Convective Flux</span>
+              </div>
+            </div>
+            <p>Our model incorporates the surface energy balance equation: \(R_n = G + H + LE\) where net radiation is partitioned into ground heat, sensible heat, and latent heat fluxes. Out-of-bounds calculations are physically penalized in the network's loss function.</p>
+          </div>
+          
+          <div class="model-card">
+            <div class="model-card-header">
+              <h3>Convolutional Feature Extractor (CNN)</h3>
+              <div class="model-tags">
+                <span class="tag">Sentinel-2</span>
+                <span class="tag">Bhuvan Landsat</span>
+              </div>
+            </div>
+            <p>Processes raw spatial bands to capture neighborhood relationships and canyon structures, extracting hyper-local indices at 15m resolution.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="metrics-row">
+        <div class="metric-card">
+          <span class="metric-label">Temp RMSE</span>
+          <span class="metric-val">0.145 °C</span>
+          <div class="metric-bar-wrap">
+            <div class="metric-bar-fill" data-width="95" style="--width: 95%;"></div>
+          </div>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Regression R²</span>
+          <span class="metric-val">0.998</span>
+          <div class="metric-bar-wrap">
+            <div class="metric-bar-fill" data-width="99.8" style="--width: 99.8%;"></div>
+          </div>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Classification Accuracy</span>
+          <span class="metric-val">94.2 %</span>
+          <div class="metric-bar-wrap">
+            <div class="metric-bar-fill" data-width="94.2" style="--width: 94.2%;"></div>
+          </div>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Training Convergence</span>
+          <span class="metric-val">45 epochs</span>
+          <div class="metric-bar-wrap">
+            <div class="metric-bar-fill" data-width="90" style="--width: 90%;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TEAM SECTION ===== -->
+  <section id="team" class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">Our Team</span>
+        <h2>Meet the Innovators</h2>
+        <p>A passionate team of engineers and researchers committed to making Indian cities cooler and more livable.</p>
+      </div>
+
+      <div class="team-row">
+        <div class="member-card">
+          <div class="member-avatar">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <h3>Kandanala Kota Mohith Srujan</h3>
+          <span class="member-role">Team Leader & AI/ML Lead</span>
+          <span class="member-college">SRM Institute of Science & Technology</span>
+          <p>Deep learning specialist focused on physics-informed neural network development, convection energy balance loss constraints, and model training.</p>
+        </div>
+        <div class="member-card">
+          <div class="member-avatar avatar-green">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <h3>Aswati B Prasad</h3>
+          <span class="member-role">Geospatial Analyst</span>
+          <span class="member-college">TKM College of Engineering</span>
+          <p>Geospatial modeling expert utilizing multi-spectral satellite imagery to build NDVI, NDBI, and surface albedo matrices.</p>
+        </div>
+        <div class="member-card">
+          <div class="member-avatar avatar-amber">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <h3>Kavali Tharun</h3>
+          <span class="member-role">Data Engineer</span>
+          <span class="member-college">SRM Institute of Science & Technology</span>
+          <p>Geospatial database engineer designing robust pipelines to ingest and process raw temporal satellite observations from ISRO platforms.</p>
+        </div>
+        <div class="member-card">
+          <div class="member-avatar avatar-purple">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <h3>Vutukuri Akshita Lakshmi Nithisha</h3>
+          <span class="member-role">Full Stack Lead</span>
+          <span class="member-college">SRM Institute of Science & Technology</span>
+          <p>Full-stack interface developer designing premium dashboards, responsive canvas overlay layers, and dynamic Chart.js consoles.</p>
+        </div>
+      </div>
+
+      <div class="impact-section">
+        <h3 class="subsection-title">Projected Impact</h3>
+        <div class="impact-grid">
+          <div class="impact-stat">
+            <div class="impact-num-wrap">
+              <span class="impact-num" data-target="3.5" data-decimal="1">0</span>
+              <span class="impact-unit">°C</span>
+            </div>
+            <span class="impact-label">Average Temperature Reduction</span>
+          </div>
+          <div class="impact-stat">
+            <div class="impact-num-wrap">
+              <span class="impact-num" data-target="2.4" data-decimal="1">0</span>
+              <span class="impact-unit">M</span>
+            </div>
+            <span class="impact-label">Population Benefited</span>
+          </div>
+          <div class="impact-stat">
+            <div class="impact-num-wrap">
+              <span class="impact-num" data-target="40">0</span>
+              <span class="impact-unit">%</span>
+            </div>
+            <span class="impact-label">Heat Illness Reduction</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="roadmap-section">
+        <h3 class="subsection-title">Development Roadmap</h3>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-marker">
+              <div class="tl-dot"></div>
+              <div class="tl-line"></div>
+            </div>
+            <div class="tl-content">
+              <span class="tl-phase">Phase 1</span>
+              <h4>Data Collection & Processing</h4>
+              <p>Acquire and process multi-temporal satellite data for 10 major Indian cities from ISRO/NRSC portals.</p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-marker">
+              <div class="tl-dot"></div>
+              <div class="tl-line"></div>
+            </div>
+            <div class="tl-content">
+              <span class="tl-phase">Phase 2</span>
+              <h4>Model Training & Validation</h4>
+              <p>Train and validate PINN + CNN hybrid model on labeled urban heat data with cross-city generalization.</p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-marker">
+              <div class="tl-dot"></div>
+              <div class="tl-line"></div>
+            </div>
+            <div class="tl-content">
+              <span class="tl-phase">Phase 3</span>
+              <h4>Dashboard MVP Launch</h4>
+              <p>Deploy interactive dashboard with real-time satellite feed integration and AI recommendation engine.</p>
+            </div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-marker">
+              <div class="tl-dot"></div>
+            </div>
+            <div class="tl-content">
+              <span class="tl-phase">Phase 4</span>
+              <h4>City Partnerships & Scale</h4>
+              <p>Partner with municipal corporations for pilot implementation in 3 cities and expand nationwide.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand-col">
+          <div class="footer-brand">
+            <svg class="brand-logo" width="34" height="34" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="panelGradFooter" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#00d4ff"/>
+                  <stop offset="100%" stop-color="#3b82f6"/>
+                </linearGradient>
+                <linearGradient id="bodyGradFooter" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#ffffff"/>
+                  <stop offset="100%" stop-color="#94a3b8"/>
+                </linearGradient>
+                <filter id="logoGlowFooter">
+                  <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                  <feMerge>
+                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+              </defs>
+              <circle cx="50" cy="50" r="42" stroke="rgba(0, 212, 255, 0.25)" stroke-width="2" stroke-dasharray="8 6" />
+              <path d="M 50 8 A 42 42 0 0 1 92 50" stroke="#00d4ff" stroke-width="3" stroke-linecap="round" filter="url(#logoGlowFooter)" />
+              <circle cx="50" cy="50" r="28" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1.5" />
+              <rect x="12" y="44" width="22" height="12" rx="1.5" fill="url(#panelGradFooter)" stroke="#00d4ff" stroke-width="1" />
+              <line x1="12" y1="50" x2="34" y2="50" stroke="#06080f" stroke-width="1" />
+              <line x1="23" y1="44" x2="23" y2="56" stroke="#06080f" stroke-width="1" />
+              <rect x="66" y="44" width="22" height="12" rx="1.5" fill="url(#panelGradFooter)" stroke="#00d4ff" stroke-width="1" />
+              <line x1="66" y1="50" x2="88" y2="50" stroke="#06080f" stroke-width="1" />
+              <line x1="77" y1="44" x2="77" y2="56" stroke="#06080f" stroke-width="1" />
+              <rect x="34" y="49" width="32" height="2" fill="url(#bodyGradFooter)" />
+              <rect x="42" y="32" width="16" height="32" rx="3" fill="url(#bodyGradFooter)" stroke="#ffffff" stroke-width="1.2" />
+              <path d="M 37 68 C 37 72, 63 72, 63 68 C 59 75, 41 75, 37 68 Z" fill="#00d4ff" filter="url(#logoGlowFooter)" />
+              <line x1="50" y1="64" x2="50" y2="76" stroke="#ffffff" stroke-width="1.5" />
+              <circle cx="50" cy="76" r="2" fill="#00d4ff" />
+              <path d="M 45 32 C 45 27, 55 27, 55 32 Z" fill="#e2e8f0" />
+            </svg>
+            <span class="brand-text">UrbanCool<span class="brand-ai">AI</span></span>
+          </div>
+          <p class="footer-desc">Optimizing Urban Heat Mitigation and Cooling Strategies via Artificial Intelligence and Machine Learning.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <a href="#problem">Problem Statement</a>
+          <a href="#pipeline">Our Approach</a>
+          <a href="#dashboard">Live Dashboard</a>
+          <a href="#strategies">Cooling Solutions</a>
+          <a href="#model">AI Architecture</a>
+        </div>
+        <div class="footer-col">
+          <h4>Data Sources</h4>
+          <a href="https://bhuvan.nrsc.gov.in" target="_blank">Bhuvan (NRSC/ISRO)</a>
+          <a href="https://earthexplorer.usgs.gov" target="_blank">Landsat-8/9 (USGS)</a>
+          <a href="https://scihub.copernicus.eu" target="_blank">Sentinel-2 (ESA)</a>
+          <a href="https://mosdac.gov.in" target="_blank">INSAT-3D (MOSDAC)</a>
+        </div>
+        <div class="footer-col">
+          <h4>Technologies</h4>
+          <a href="#">Physics-Informed NNs</a>
+          <a href="#">Convolutional Neural Nets</a>
+          <a href="#">Google Earth Engine</a>
+          <a href="#">XGBoost Ensemble</a>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <div class="footer-isro">
+          <p>Developed for the <strong>ISRO Hackathon</strong> under topic: <em>"Urban Heat Mitigation & Cooling Strategies via AI/ML"</em>.</p>
+        </div>
+        <div class="footer-copy">
+          &copy; 2026 UrbanCool AI. All rights reserved.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== AUTHENTICATION MODAL ===== -->
+  <div class="auth-overlay" id="auth-modal">
+    <div class="auth-card">
+      <button class="auth-close-btn" id="auth-close" aria-label="Close authentication panel">&times;</button>
+      
+      <div class="auth-tabs">
+        <button class="auth-tab-btn active" data-tab="login">Sign In</button>
+        <button class="auth-tab-btn" data-tab="signup">Create Account</button>
+      </div>
+
+      <!-- Login Panel -->
+      <div class="auth-panel active" id="panel-login">
+        <form class="auth-form" id="form-login">
+          <div class="form-group">
+            <label for="login-email">Email Address</label>
+            <input type="email" id="login-email" required placeholder="name@domain.com">
+          </div>
+          <div class="form-group">
+            <div class="label-row">
+              <label for="login-password">Password</label>
+              <a href="#" class="forgot-link">Forgot?</a>
+            </div>
+            <input type="password" id="login-password" required placeholder="••••••••">
+          </div>
+          <button type="submit" class="btn-primary auth-submit-btn">Sign In</button>
+        </form>
+      </div>
+
+      <!-- Signup Panel -->
+      <div class="auth-panel" id="panel-signup">
+        <form class="auth-form" id="form-signup">
+          <div class="form-group">
+            <label for="signup-name">Full Name</label>
+            <input type="text" id="signup-name" placeholder="John Doe">
+          </div>
+          <div class="form-group">
+            <label for="signup-email">Email Address</label>
+            <input type="email" id="signup-email" placeholder="name@domain.com">
+          </div>
+          <div class="form-group">
+            <label for="signup-password">Password</label>
+            <input type="password" id="signup-password" placeholder="Min. 8 characters">
+          </div>
+          <button type="submit" class="btn-primary auth-submit-btn">Create Account</button>
+        </form>
+      </div>
+
+      <div class="auth-divider">
+        <span>OR</span>
+      </div>
+
+      <div class="sso-buttons">
+        <button class="sso-btn sso-isro">
+          🛰️ Continue with ISRO SSO
+        </button>
+        <button class="sso-btn sso-google">
+          <svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22-.03-.63z"/><path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+          Continue with Google
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Math Rendering scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+  
+  <!-- Interactive Modules -->
+  <script src="heatmap.js"></script>
+  <script src="app.js"></script>
+
+</body>
+</html>
